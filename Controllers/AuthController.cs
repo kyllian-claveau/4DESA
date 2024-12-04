@@ -80,7 +80,7 @@ public class AuthController : ControllerBase
 
         var token = new JwtSecurityToken(
             issuer: _configuration["JwtIssuer"],
-            audience: _configuration["LinkUpAudience"],
+            audience: _configuration["JwtAudience"],
             claims: claims,
             expires: DateTime.Now.AddHours(3),
             signingCredentials: credentials

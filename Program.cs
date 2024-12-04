@@ -87,7 +87,7 @@ public class Program
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = builder.Configuration.GetSection("JwtIssuer").Value,
-                ValidAudience = builder.Configuration.GetSection("JWTAudience").Value,
+                ValidAudience = builder.Configuration.GetSection("JwtAudience").Value,
                 IssuerSigningKey = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JwtKey").Value))
             };
