@@ -64,8 +64,7 @@ public class Program
 
         /* On fais la même chose pour notre DBConnectionString, qui se situe dans notre keyvault */
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetSection("DbConnectionString").Value,
-        b => b.MigrationsAssembly("LinkUp")));
+    options.UseSqlServer(builder.Configuration.GetSection("DbConnectionString").Value));
 
 
         
