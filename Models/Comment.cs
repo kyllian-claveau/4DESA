@@ -1,9 +1,12 @@
 ﻿using LinkUp.Models.Auth;
+using System.ComponentModel.DataAnnotations;
 
 namespace LinkUp.Models;
 public class Comment
     {
         public Guid Id { get; set; }
+        
+        [Required]
         public string Content { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

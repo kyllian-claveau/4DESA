@@ -11,5 +11,8 @@ public interface ICommentService
     Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(Guid postId);
     Task<Comment> CreateCommentAsync(Comment comment);
     
+    Task UpdateCommentAsync(Comment comment);
+
+    
     Task DeleteCommentAsync(Guid commentId);
 }

@@ -98,4 +98,94 @@ public class AuthController : ControllerBase
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+    
+    /// <summary>
+    /// Mise à jour des informations de profil de l'utilisateur
+    /// </summary>
+    /// <param name="model">Modèle contenant les informations à mettre à jour</param>
+    /// <returns>Retourne un message de succès ou d'échec</returns>
+    /// <response code="200">Profil mis à jour avec succès</response>
+    /// <response code="400">Échec de la mise à jour du profil</response>
+    [HttpPut("update-profile")]
+    public async Task<IActionResult> UpdateProfile(UpdateProfileRequest model)
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return Unauthorized("Utilisateur non authentifié");
+        }
+        
+        if (!string.IsNullOrEmpty(model.Email) && model.Email != user.Email)
+        {
+            user.Email = model.Email;
+        }
+
+        if (model.IsPrivate != null && model.IsPrivate != user.IsPrivate)
+        {
+            user.IsPrivate = model.IsPrivate.Value;
+        }
+
+        var result = await _userManager.UpdateAsync(user);
+
+        if (result.Succeeded)
+        {
+            return Ok(new { Message = "Profil mis à jour avec succès" });
+        }
+
+        return BadRequest(result.Errors);
+    }
+    
+    /// <summary>
+    /// Récupère les informations de l'utilisateur connecté
+    /// </summary>
+    /// <returns>Informations de l'utilisateur connecté</returns>
+    /// <response code="200">Retourne les informations de l'utilisateur</response>
+    /// <response code="401">Utilisateur non authentifié</response>
+    [HttpGet("user-info")]
+    public async Task<IActionResult> GetUserInfo()
+    {
+        var user = await _userManager.GetUserAsync(User); // Récupère l'utilisateur courant à partir du JWT
+        if (user == null)
+        {
+            return Unauthorized("Utilisateur non authentifié");
+        }
+
+        var userInfo = new
+        {
+            user.Id,
+            user.UserName,
+            user.Email,
+            user.IsPrivate
+        };
+
+        return Ok(userInfo);
+    }
+    
+    /// <summary>
+    /// Modifie le mot de passe de l'utilisateur connecté
+    /// </summary>
+    /// <param name="model">Modèle contenant l'ancien mot de passe et le nouveau mot de passe</param>
+    /// <returns>Message de succès ou d'échec</returns>
+    /// <response code="200">Mot de passe modifié avec succès</response>
+    /// <response code="400">Échec de la modification du mot de passe</response>
+    /// <response code="401">Utilisateur non authentifié</response>
+    [HttpPut("change-password")]
+    public async Task<IActionResult> ChangePassword(ChangePasswordRequest model)
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return Unauthorized("Utilisateur non authentifié");
+        }
+        
+        var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+        if (result.Succeeded)
+        {
+            return Ok(new { Message = "Mot de passe modifié avec succès" });
+        }
+        
+        var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+        return BadRequest(new { Message = "Erreur lors du changement de mot de passe", Errors = errors });
+    }
+    
 }

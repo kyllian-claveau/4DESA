@@ -18,6 +18,33 @@
             <returns>Compte utilisateur connecté</returns>
             <response code="200">Retourne les informations de connexion</response>
         </member>
+        <member name="M:LinkUp.Controllers.AuthController.UpdateProfile(LinkUp.Models.Auth.UpdateProfileRequest)">
+            <summary>
+            Mise à jour des informations de profil de l'utilisateur
+            </summary>
+            <param name="model">Modèle contenant les informations à mettre à jour</param>
+            <returns>Retourne un message de succès ou d'échec</returns>
+            <response code="200">Profil mis à jour avec succès</response>
+            <response code="400">Échec de la mise à jour du profil</response>
+        </member>
+        <member name="M:LinkUp.Controllers.AuthController.GetUserInfo">
+            <summary>
+            Récupère les informations de l'utilisateur connecté
+            </summary>
+            <returns>Informations de l'utilisateur connecté</returns>
+            <response code="200">Retourne les informations de l'utilisateur</response>
+            <response code="401">Utilisateur non authentifié</response>
+        </member>
+        <member name="M:LinkUp.Controllers.AuthController.ChangePassword(LinkUp.Models.Auth.ChangePasswordRequest)">
+            <summary>
+            Modifie le mot de passe de l'utilisateur connecté
+            </summary>
+            <param name="model">Modèle contenant l'ancien mot de passe et le nouveau mot de passe</param>
+            <returns>Message de succès ou d'échec</returns>
+            <response code="200">Mot de passe modifié avec succès</response>
+            <response code="400">Échec de la modification du mot de passe</response>
+            <response code="401">Utilisateur non authentifié</response>
+        </member>
         <member name="M:LinkUp.Controllers.CommentController.GetComments(System.Guid)">
             <summary>
             Récupérer les commentaires d'un post par son id
@@ -34,12 +61,24 @@
             <response code="200">Retourne le commentaires crée pour le post</response>
             <response code="401">Si l'utilisateur n'est pas connecté</response>
         </member>
+        <member name="M:LinkUp.Controllers.CommentController.UpdateComment(System.Guid,System.String)">
+            <summary>
+            Mise à jour d'un commentaire par son id.
+            </summary>
+            <param name="commentId">L'id du commentaire à modifier.</param>
+            <param name="content">Le nouveau contenu du commentaire.</param>
+            <returns>Le commentaire mis à jour.</returns>
+            <response code="200">Retourne le commentaire mis à jour.</response>
+            <response code="401">Si l'utilisateur n'est pas connecté.</response>
+            <response code="403">Si l'utilisateur n'est pas le propriétaire du commentaire.</response>
+            <response code="404">Si le commentaire n'est pas trouvé.</response>
+        </member>
         <member name="M:LinkUp.Controllers.CommentController.DeleteComment(System.Guid)">
             <summary>
             Suppression d'un commentaire pour un post par son id
             </summary>
             <returns>Commentaire supprimé pour un post par son id</returns>
-            <response code="200">Retourne le commentaire supprimé pour le post</response>
+            <response code="204">Retourne le commentaire supprimé pour le post</response>
             <response code="401">Si l'utilisateur n'est pas connecté</response>
         </member>
         <member name="M:LinkUp.Controllers.PostsController.GetMyPosts">
@@ -66,7 +105,7 @@
             <response code="200">Retourne le post</response>
             <response code="401">Si l'utilisateur n'est pas connecté</response>
         </member>
-        <member name="M:LinkUp.Controllers.PostsController.UpdatePost(System.Guid,System.String,Microsoft.AspNetCore.Http.IFormFile[])">
+        <member name="M:LinkUp.Controllers.PostsController.UpdatePost(System.Guid,System.String,Microsoft.AspNetCore.Http.IFormFile[],System.Boolean)">
             <summary>
             Modifier un post par son id
             </summary>
@@ -90,6 +129,16 @@
             <response code="200">Retourne le post supprimé</response>
             <response code="401">Si l'utilisateur n'est pas connecté</response>
         </member>
+        <member name="T:LinkUp.Models.Auth.ChangePasswordRequest">
+            <summary>
+            Modèle pour mettre à jour son mot de passe
+            </summary>
+        </member>
+        <member name="T:LinkUp.Models.Auth.UpdateProfileRequest">
+            <summary>
+            Modèle pour la mise à jour du profil
+            </summary>
+        </member>
         <member name="T:_4DESA.Migrations.InitialMigration">
             <inheritdoc />
         </member>
@@ -100,6 +149,18 @@
             <inheritdoc />
         </member>
         <member name="M:_4DESA.Migrations.InitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:_4DESA.Migrations.UpdatePasswordInfo">
+            <inheritdoc />
+        </member>
+        <member name="M:_4DESA.Migrations.UpdatePasswordInfo.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:_4DESA.Migrations.UpdatePasswordInfo.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:_4DESA.Migrations.UpdatePasswordInfo.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

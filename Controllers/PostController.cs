@@ -82,7 +82,8 @@ public class PostsController : ControllerBase
     public async Task<IActionResult> UpdatePost(
         Guid id, 
         [FromForm] string content, 
-        [FromForm] IFormFile[]? media = null)
+        [FromForm] IFormFile[]? media = null,
+        [FromForm] bool deleteExistingMedia = false)
     {
         var post = await _postService.GetPostByIdAsync(id);
         if (post == null)
@@ -91,18 +92,21 @@ public class PostsController : ControllerBase
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (post.UserId != userId)
             return Forbid();
-        
+    
         post.Content = content;
         post.UpdatedAt = DateTime.UtcNow;
         
-        if (media != null && media.Length > 0)
+        if (deleteExistingMedia)
         {
             foreach (var mediaUrl in post.MediaUrls)
             {
                 await _mediaService.DeleteMediaAsync(mediaUrl);
             }
             post.MediaUrls.Clear();
-            
+        }
+        
+        if (media != null && media.Length > 0)
+        {
             foreach (var file in media)
             {
                 var mediaUrl = await _mediaService.UploadMediaAsync(file);
@@ -113,6 +117,7 @@ public class PostsController : ControllerBase
         await _postService.UpdatePostAsync(post);
         return Ok(post);
     }
+
 
     /// <summary>
     /// Création d'un post
