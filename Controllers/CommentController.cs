@@ -23,6 +23,12 @@ namespace LinkUp.Controllers
             _postService = postService;
         }
         
+        /// <summary>
+        /// Récupérer les commentaires d'un post par son id
+        /// </summary>
+        /// <returns>Commentaires récupérés du post par son id</returns>
+        /// <response code="200">Retourne les commentaires du post</response>
+        /// <response code="401">Si l'utilisateur n'est pas connecté</response>
         [HttpGet("{postId}/comments")]
         public async Task<IActionResult> GetComments(Guid postId)
         {
@@ -36,6 +42,12 @@ namespace LinkUp.Controllers
             return Ok(comments);
         }
         
+        /// <summary>
+        /// Création d'un commentaire pour un post par son id
+        /// </summary>
+        /// <returns>Commentaire crée pour un post par son id</returns>
+        /// <response code="200">Retourne le commentaires crée pour le post</response>
+        /// <response code="401">Si l'utilisateur n'est pas connecté</response>
         [HttpPost("{postId}/comments")]
         public async Task<IActionResult> AddComment(Guid postId, [FromForm] string content)
         {
@@ -58,6 +70,12 @@ namespace LinkUp.Controllers
             return CreatedAtAction(nameof(GetComments), new { postId }, createdComment);
         }
         
+        /// <summary>
+        /// Suppression d'un commentaire pour un post par son id
+        /// </summary>
+        /// <returns>Commentaire supprimé pour un post par son id</returns>
+        /// <response code="200">Retourne le commentaire supprimé pour le post</response>
+        /// <response code="401">Si l'utilisateur n'est pas connecté</response>
         [HttpDelete("comments/{commentId}")]
         public async Task<IActionResult> DeleteComment(Guid commentId)
         {

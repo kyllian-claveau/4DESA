@@ -27,6 +27,11 @@ public class AuthController : ControllerBase
         _configuration = configuration;
     }
 
+    /// <summary>
+    /// Création d'un compte utilisateur
+    /// </summary>
+    /// <returns>Compte utilisateur crée</returns>
+    /// <response code="200">Retourne le compte utilisateur</response>
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest model)
     {
@@ -47,6 +52,11 @@ public class AuthController : ControllerBase
         return BadRequest(result.Errors);
     }
 
+    /// <summary>
+    /// Connexion d'un compte utilisateur
+    /// </summary>
+    /// <returns>Compte utilisateur connecté</returns>
+    /// <response code="200">Retourne les informations de connexion</response>
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest model)
     {

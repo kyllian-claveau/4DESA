@@ -22,6 +22,12 @@ public class PostsController : ControllerBase
         _commentService = commentService;
     }
 
+    /// <summary>
+    /// Récupérer tous les posts de l'utilisateur connecté
+    /// </summary>
+    /// <returns>Une liste de tous les posts de l'utilisateur connecté</returns>
+    /// <response code="200">Retourne la liste des posts de l'utilisateur connecté</response>
+    /// <response code="401">Si l'utilisateur n'est pas connecté</response>
     [HttpGet("my-posts")]
     public async Task<IActionResult> GetMyPosts()
     {
@@ -37,6 +43,12 @@ public class PostsController : ControllerBase
         return Ok(posts);
     }
 
+    /// <summary>
+    /// Récupérer tous les posts des utilisateurs ayant un profil public
+    /// </summary>
+    /// <returns>Une liste de tous les posts des utilisateurs ayant un profil public</returns>
+    /// <response code="200">Retourne la liste des posts des utilisateurs ayant un profil public</response>
+    /// <response code="401">Si l'utilisateur n'est pas connecté</response>
     [HttpGet]
     public async Task<IActionResult> GetVisiblePosts()
     {
@@ -44,6 +56,12 @@ public class PostsController : ControllerBase
         return Ok(posts);
     }
 
+    /// <summary>
+    /// Récupérer un post par son id
+    /// </summary>
+    /// <returns>Post récupéré par son id</returns>
+    /// <response code="200">Retourne le post</response>
+    /// <response code="401">Si l'utilisateur n'est pas connecté</response>
     [HttpGet("{id}")]
     public async Task<IActionResult> GetPost(Guid id)
     {
@@ -54,6 +72,12 @@ public class PostsController : ControllerBase
         return Ok(post);
     }
 
+    /// <summary>
+    /// Modifier un post par son id
+    /// </summary>
+    /// <returns>Post modifié par son id</returns>
+    /// <response code="200">Retourne le post modifié</response>
+    /// <response code="401">Si l'utilisateur n'est pas connecté</response>
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdatePost(
         Guid id, 
@@ -90,6 +114,12 @@ public class PostsController : ControllerBase
         return Ok(post);
     }
 
+    /// <summary>
+    /// Création d'un post
+    /// </summary>
+    /// <returns>Post crée</returns>
+    /// <response code="200">Retourne le post crée</response>
+    /// <response code="401">Si l'utilisateur n'est pas connecté</response>
     [HttpPost]
     public async Task<IActionResult> CreatePost(
         [FromForm] string content,
@@ -118,6 +148,12 @@ public class PostsController : ControllerBase
         return CreatedAtAction(nameof(GetPost), new { id = post.Id }, post);
     }
 
+    /// <summary>
+    /// Supprimer un post par son id
+    /// </summary>
+    /// <returns>Post supprimé par son id</returns>
+    /// <response code="200">Retourne le post supprimé</response>
+    /// <response code="401">Si l'utilisateur n'est pas connecté</response>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletePost(Guid id)
     {

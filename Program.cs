@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Reflection;
 
 namespace LinkUp;
 
@@ -28,8 +29,13 @@ public class Program
             c.SwaggerDoc("v1", new OpenApiInfo 
             { 
                 Title = "LinkUp API", 
-                Version = "v1" 
+                Version = "v1",
+                Description = "API pour notre réseau social LinkUp :)"
             });
+            
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            c.IncludeXmlComments(xmlPath);
 
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
