@@ -129,6 +129,33 @@
             <response code="200">Retourne le post supprimé</response>
             <response code="401">Si l'utilisateur n'est pas connecté</response>
         </member>
+        <member name="M:LinkUp.Controllers.SubscriptionController.Subscribe(System.String)">
+            <summary>
+            Abonne un utilisateur à un autre utilisateur.
+            </summary>
+            <param name="subscribedUserId">L'ID de l'utilisateur auquel s'abonner.</param>
+            <returns>Message de succès ou d'erreur.</returns>
+        </member>
+        <member name="M:LinkUp.Controllers.SubscriptionController.Unsubscribe(System.String)">
+            <summary>
+            Désabonne un utilisateur d'un autre utilisateur.
+            </summary>
+            <param name="subscribedUserId">L'ID de l'utilisateur à se désabonner.</param>
+            <returns>Message de succès ou d'erreur.</returns>
+        </member>
+        <member name="M:LinkUp.Controllers.SubscriptionController.IsSubscribed(System.String)">
+            <summary>
+            Vérifie si un utilisateur est abonné à un autre utilisateur.
+            </summary>
+            <param name="subscribedUserId">L'ID de l'utilisateur à vérifier.</param>
+            <returns>Résultat de l'abonnement.</returns>
+        </member>
+        <member name="M:LinkUp.Controllers.SubscriptionController.GetSubscriptions">
+            <summary>
+            Récupère la liste des abonnements de l'utilisateur authentifié.
+            </summary>
+            <returns>Liste des abonnements de l'utilisateur.</returns>
+        </member>
         <member name="T:LinkUp.Models.Auth.ChangePasswordRequest">
             <summary>
             Modèle pour mettre à jour son mot de passe
@@ -161,6 +188,18 @@
             <inheritdoc />
         </member>
         <member name="M:_4DESA.Migrations.UpdatePasswordInfo.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:_4DESA.Migrations.CreateSubscriptionsTable">
+            <inheritdoc />
+        </member>
+        <member name="M:_4DESA.Migrations.CreateSubscriptionsTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:_4DESA.Migrations.CreateSubscriptionsTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:_4DESA.Migrations.CreateSubscriptionsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

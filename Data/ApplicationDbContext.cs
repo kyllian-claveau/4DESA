@@ -12,9 +12,10 @@ namespace LinkUp.Data
         {
         }
 
-        /* On met nos DBSet ci-dessous */
+        /* On met nos DbSet ci-dessous */
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }  // Ajout du DbSet pour les abonnements
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -37,12 +38,29 @@ namespace LinkUp.Data
 
                 /* On configure les relations entre les posts */
                 entity.HasOne(c => c.Post)
-                      .WithMany(p => p.Comments)  /* On fais en sorte qu'un post puisse avoir plusieurs commentaires */
+                      .WithMany(p => p.Comments)  /* Un post peut avoir plusieurs commentaires */
                       .HasForeignKey(c => c.PostId)
-                      .OnDelete(DeleteBehavior.Cascade);  /* Quand on supprime un post, les commentaires sont supprimés aussi */
+                      .OnDelete(DeleteBehavior.Cascade);  /* Si un post est supprimé, ses commentaires sont supprimés */
                 entity.HasOne(c => c.User)
                       .WithMany()  
                       .HasForeignKey(c => c.UserId)
+                      .OnDelete(DeleteBehavior.Restrict);  /* L'utilisateur ne peut pas être supprimé si des commentaires lui appartiennent */
+            });
+
+            /* On configure l'entité Subscription ci-dessous */
+            builder.Entity<Subscription>(entity =>
+            {
+                entity.HasKey(s => s.Id);
+
+                /* On configure la relation entre abonnés ci-dessous */
+                entity.HasOne(s => s.Subscriber)
+                      .WithMany()  
+                      .HasForeignKey(s => s.SubscriberId)
+                      .OnDelete(DeleteBehavior.Restrict); 
+
+                entity.HasOne(s => s.Subscribed)
+                      .WithMany()
+                      .HasForeignKey(s => s.SubscribedId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
         }
