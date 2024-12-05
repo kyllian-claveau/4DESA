@@ -39,6 +39,23 @@ public class CommentService : ICommentService
         await _context.SaveChangesAsync();
         return comment;
     }
+    
+    public async Task UpdateCommentAsync(Comment comment)
+    {
+        var existingComment = await _context.Comments.FindAsync(comment.Id);
+        if (existingComment != null)
+        {
+            existingComment.Content = comment.Content;
+            existingComment.UpdatedAt = comment.UpdatedAt;
+
+            _context.Comments.Update(existingComment);
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            throw new InvalidOperationException("Comment not found.");
+        }
+    }
 
     public async Task DeleteCommentAsync(Guid commentId)
     {
